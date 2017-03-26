@@ -1,2 +1,5 @@
 .idea/
 Issues.xcodeproj/xcuserdata/
+Issues/Secrets.swift
+Issues.xcodeproj/project.xcworkspace/xcuserdata/
+.DS_Store
