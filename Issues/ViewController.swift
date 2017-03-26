@@ -3,10 +3,27 @@ import UIKit
 class ViewController: UIViewController {
 
     let repository = IssuesRepository()
+    let tableView = UITableView()
+    let source = Source<Issue>(binding: { cell, issue in
+        cell.textLabel?.text = issue.title
+    })
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        repository.issues({ issues in
+
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.constrainToSuperview([.leading, .trailing, .top, .bottom])
+
+        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.register(IssueCell.self, forCellReuseIdentifier: "issue")
+
+        tableView.dataSource = source
+        repository.issues({ [weak self] issues in
+            DispatchQueue.main.async { [weak self] in
+                self?.source.update(issues.results)
+                self?.tableView.reloadData()
+            }
             print("We've got issues!: \(issues)")
         })
     }
@@ -14,6 +31,43 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+}
+
+class Source<T>: NSObject, UITableViewDataSource {
+
+    private let binding: ((UITableViewCell, T) -> Void)
+    private var issues: [T] = []
+
+    init(binding: @escaping ((UITableViewCell, T) -> Void)) {
+        self.binding = binding
+    }
+
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return issues.count
+    }
+
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "issue", for: indexPath)
+        binding(cell, issues[indexPath.row])
+        return cell
+    }
+
+    func update(_ issues: [T]) {
+        self.issues = issues
+    }
+
+}
+
+class IssueCell: UITableViewCell {
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: "issue")
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
 }

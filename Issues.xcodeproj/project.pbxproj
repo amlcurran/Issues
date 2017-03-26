@@ -14,6 +14,7 @@
 		698533CF34EADD888245D8C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69853016F3AECCFF18AA9B1E /* Assets.xcassets */; };
 		6985340AE019B138766D5107 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6985392BB667CC08BEB61A93 /* LaunchScreen.storyboard */; };
 		698534E0445FF426D353C992 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698535C9E8F9E33CEB895491 /* Secrets.swift */; };
+		69853709739C03496D3E9F2D /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69853A77C05EA788A1D53F72 /* UIView+Constraints.swift */; };
 		69853A3F89CD3BCB1C8B0EED /* IssuesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698538BF3C4C52DCCF377F8D /* IssuesTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		698539B90857DC5DC4D7A7B2 /* IssuesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IssuesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		698539E9F900B79CBC4972FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69853A22DBA9BB128B821363 /* Issues.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Issues.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69853A77C05EA788A1D53F72 /* UIView+Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		69853ABE1804E9F1770EE94A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69853B6CBD9DADB25FA8C2AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		69853DCE0BBAFFC184130C9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				698539E9F900B79CBC4972FE /* AppDelegate.swift */,
 				6985324BB66B3177798B63B4 /* ViewController.swift */,
 				698535C9E8F9E33CEB895491 /* Secrets.swift */,
+				69853A77C05EA788A1D53F72 /* UIView+Constraints.swift */,
 			);
 			path = Issues;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				698532C44A694DF783F9C5B6 /* AppDelegate.swift in Sources */,
 				698530E485B9C2555DBCBDAD /* ViewController.swift in Sources */,
 				698534E0445FF426D353C992 /* Secrets.swift in Sources */,
+				69853709739C03496D3E9F2D /* UIView+Constraints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
