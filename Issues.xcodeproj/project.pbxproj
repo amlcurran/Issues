@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		698530E485B9C2555DBCBDAD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6985324BB66B3177798B63B4 /* ViewController.swift */; };
 		69853181FC31FE1CCFE48F72 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69853DCE0BBAFFC184130C9A /* Info.plist */; };
-		6985326D1F1C98E2DEA55402 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 698532F1D39ABA23ABDBA468 /* Main.storyboard */; };
 		698532C44A694DF783F9C5B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698539E9F900B79CBC4972FE /* AppDelegate.swift */; };
 		698533CAB403B43AB570E0C5 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 69853B6CBD9DADB25FA8C2AA /* Info.plist */; };
 		698533CF34EADD888245D8C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69853016F3AECCFF18AA9B1E /* Assets.xcassets */; };
@@ -30,7 +29,6 @@
 /* Begin PBXFileReference section */
 		69853016F3AECCFF18AA9B1E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6985324BB66B3177798B63B4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6985373B533F044FAAD5A267 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		698538BF3C4C52DCCF377F8D /* IssuesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuesTests.swift; sourceTree = "<group>"; };
 		698539B90857DC5DC4D7A7B2 /* IssuesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IssuesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		698539E9F900B79CBC4972FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 				69853016F3AECCFF18AA9B1E /* Assets.xcassets */,
 				6985392BB667CC08BEB61A93 /* LaunchScreen.storyboard */,
 				698539E9F900B79CBC4972FE /* AppDelegate.swift */,
-				698532F1D39ABA23ABDBA468 /* Main.storyboard */,
 				6985324BB66B3177798B63B4 /* ViewController.swift */,
 			);
 			path = Issues;
@@ -143,6 +140,11 @@
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = "Alex Curran";
+				TargetAttributes = {
+					6985304EB778DA4A170404FF = {
+						DevelopmentTeam = 3H3SBN3AYY;
+					};
+				};
 			};
 			buildConfigurationList = 69853F5947179ED421A6E7E6 /* Build configuration list for PBXProject "Issues" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -170,7 +172,6 @@
 				69853181FC31FE1CCFE48F72 /* Info.plist in Resources */,
 				698533CF34EADD888245D8C7 /* Assets.xcassets in Resources */,
 				6985340AE019B138766D5107 /* LaunchScreen.storyboard in Resources */,
-				6985326D1F1C98E2DEA55402 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,14 +214,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		698532F1D39ABA23ABDBA468 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6985373B533F044FAAD5A267 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6985392BB667CC08BEB61A93 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -249,6 +242,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 3H3SBN3AYY;
 				INFOPLIST_FILE = Issues/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.amlcurran.Issues;
@@ -367,6 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 3H3SBN3AYY;
 				INFOPLIST_FILE = Issues/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.amlcurran.Issues;
@@ -385,6 +380,7 @@
 				698531E8F775D01A00215CA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		69853F5947179ED421A6E7E6 /* Build configuration list for PBXProject "Issues" */ = {
 			isa = XCConfigurationList;
@@ -402,6 +398,7 @@
 				6985320342FF87FE658049C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
