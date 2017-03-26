@@ -4,7 +4,7 @@ class ViewController: UIViewController {
 
     let repository = IssuesRepository()
     let tableView = UITableView()
-    let source = Source<Issue>(binding: { cell, issue in
+    let source = Source<Issue, IssueCell>(binding: { cell, issue in
         cell.textLabel?.text = issue.title
     })
 
@@ -35,12 +35,12 @@ class ViewController: UIViewController {
 
 }
 
-class Source<T>: NSObject, UITableViewDataSource {
+class Source<Data, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
 
-    private let binding: ((UITableViewCell, T) -> Void)
-    private var issues: [T] = []
+    private let binding: ((Cell, Data) -> Void)
+    private var issues: [Data] = []
 
-    init(binding: @escaping ((UITableViewCell, T) -> Void)) {
+    init(binding: @escaping ((Cell, Data) -> Void)) {
         self.binding = binding
     }
 
@@ -49,12 +49,15 @@ class Source<T>: NSObject, UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "issue", for: indexPath)
+        let basicCell = tableView.dequeueReusableCell(withIdentifier: "issue", for: indexPath)
+        guard let cell = basicCell as? Cell else {
+            preconditionFailure("Expected cell dequeued for issue to be \(Cell.self) but was \(type(of: basicCell))")
+        }
         binding(cell, issues[indexPath.row])
         return cell
     }
 
-    func update(_ issues: [T]) {
+    func update(_ issues: [Data]) {
         self.issues = issues
     }
 
