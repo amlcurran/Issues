@@ -18,6 +18,7 @@
 		698537A4FE2FE65E2DF56708 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6985399D2C1CFFA4E13EBF48 /* Source.swift */; };
 		698537D27F4014D4E0A4C49F /* IssuesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69853322531B0023F2F6B71D /* IssuesRepository.swift */; };
 		69853A3F89CD3BCB1C8B0EED /* IssuesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698538BF3C4C52DCCF377F8D /* IssuesTests.swift */; };
+		69853DB336173E0F45AC2BBE /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69853039BA88CD6CD739B16F /* GraphQL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		69853016F3AECCFF18AA9B1E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		69853039BA88CD6CD739B16F /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
 		6985324BB66B3177798B63B4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		69853322531B0023F2F6B71D /* IssuesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssuesRepository.swift; sourceTree = "<group>"; };
 		698535C9E8F9E33CEB895491 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				69853A77C05EA788A1D53F72 /* UIView+Constraints.swift */,
 				6985399D2C1CFFA4E13EBF48 /* Source.swift */,
 				69853322531B0023F2F6B71D /* IssuesRepository.swift */,
+				69853039BA88CD6CD739B16F /* GraphQL.swift */,
 			);
 			path = Issues;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				69853709739C03496D3E9F2D /* UIView+Constraints.swift in Sources */,
 				698537A4FE2FE65E2DF56708 /* Source.swift in Sources */,
 				698537D27F4014D4E0A4C49F /* IssuesRepository.swift in Sources */,
+				69853DB336173E0F45AC2BBE /* GraphQL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

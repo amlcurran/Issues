@@ -6,7 +6,14 @@ typealias JSONArray = [JSON]
 class IssuesRepository {
 
     func issues(_ completion: @escaping ((Issues) -> Void)) {
-        let graph = "query { repository(owner: \"amlcurran\", name: \"Social\") { issues(first: 10, states: [OPEN]) { nodes { title } } } }"
+        let repository = GraphQL.constrainedNode("repository",
+                ["owner": "amlcurran", "name": "Social"],
+                .constrainedNode("issues",
+                        ["first": 10, "states": GraphQLArray(values: ["OPEN"])],
+                        .node("nodes",
+                                .values("title"))))
+        let graph = "query \(repository.flattened)"
+        print(graph)
         let json = ["query" : graph]
         var request = URLRequest(url: URL(string: "https://api.github.com/graphql")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
