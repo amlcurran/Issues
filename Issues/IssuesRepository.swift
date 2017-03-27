@@ -6,15 +6,16 @@ typealias JSONArray = [JSON]
 class IssuesRepository {
 
     func issues(_ completion: @escaping ((Issues) -> Void)) {
-        let graph = GraphQL.root("query", {
-            .child(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
-                .child(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
-                    .child(Node("nodes"), {
-                        .values("title")
+        let graph =
+                GraphQL.root("query", {
+                    .child(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
+                        .child(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
+                            .child(Node("nodes"), {
+                                .values(["title", "id"])
+                            })
+                        })
                     })
                 })
-            })
-        })
         print(graph.flattened)
         let json = ["query": graph.flattened]
         var request = URLRequest(url: URL(string: "https://api.github.com/graphql")!)

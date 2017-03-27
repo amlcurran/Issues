@@ -6,7 +6,7 @@ indirect enum GraphQL {
 
     case root(String, GraphFunction)
     case child(Node, GraphFunction)
-    case values(String)
+    case values([String])
 
     var flattened: String {
         switch self {
@@ -14,8 +14,8 @@ indirect enum GraphQL {
                 return "\(key) { \(graph().flattened) }"
             case .child(let node, let graph):
                 return "\(node.flattened) { \(graph().flattened) }"
-            case .values(let value):
-                return "\(value)"
+            case .values(let values):
+                return values.joined(separator: " ")
         }
     }
 
