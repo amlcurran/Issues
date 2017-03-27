@@ -24,7 +24,6 @@ class ViewController: UIViewController {
                 self?.source.update(issues.results)
                 self?.tableView.reloadData()
             }
-            print("We've got issues!: \(issues)")
         })
     }
 
