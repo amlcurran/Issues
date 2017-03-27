@@ -6,15 +6,15 @@ typealias JSONArray = [JSON]
 class IssuesRepository {
 
     func issues(_ completion: @escaping ((Issues) -> Void)) {
-        let repository = GraphQL.constrainedNode("repository",
-                ["owner": "amlcurran", "name": "Social"],
-                .constrainedNode("issues",
-                        ["first": 10, "states": GraphQLArray(values: ["OPEN"])],
-                        .node("nodes",
-                                .values("title"))))
-        let graph = "query \(repository.flattened)"
-        print(graph)
-        let json = ["query" : graph]
+        let graph = GraphQL.root("query",
+                GraphQL.constrainedNode("repository",
+                        ["owner": "amlcurran", "name": "Social"],
+                        .constrainedNode("issues",
+                                ["first": 10, "states": GraphQLArray(values: ["OPEN"])],
+                                .node("nodes",
+                                        .values("title")))))
+        print(graph.flattened)
+        let json = ["query": graph.flattened]
         var request = URLRequest(url: URL(string: "https://api.github.com/graphql")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.timeoutInterval = 10

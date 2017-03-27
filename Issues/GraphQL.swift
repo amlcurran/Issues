@@ -4,15 +4,15 @@ typealias GraphFunction = () -> GraphQL
 
 indirect enum GraphQL {
 
-    case root(GraphQL)
+    case root(String, GraphQL)
     case node(String, GraphQL)
     case constrainedNode(String, [String: GraphQLPrimitive], GraphQL)
     case values(String)
 
     var flattened: String {
         switch self {
-            case .root(let graph):
-                return graph.flattened
+            case .root(let key, let graph):
+                return "\(key) \(graph.flattened)"
             case .node(let key, let node):
                 return "{ \(key) { \(node.flattened) } }"
             case .values(let value):
