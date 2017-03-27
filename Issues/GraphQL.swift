@@ -4,21 +4,37 @@ typealias GraphFunction = () -> GraphQL
 
 indirect enum GraphQL {
 
-    case root(String, GraphQL)
-    case node(String, GraphQL)
-    case constrainedNode(String, [String: GraphQLPrimitive], GraphQL)
+    case root(String, GraphFunction)
+    case child(Node, GraphFunction)
     case values(String)
 
     var flattened: String {
         switch self {
             case .root(let key, let graph):
-                return "\(key) \(graph.flattened)"
-            case .node(let key, let node):
-                return "{ \(key) { \(node.flattened) } }"
+                return "\(key) { \(graph().flattened) }"
+            case .child(let node, let graph):
+                return "\(node.flattened) { \(graph().flattened) }"
             case .values(let value):
                 return "\(value)"
-            case .constrainedNode(let key, let options, let node):
-                return "{ \(key)(\(toGraphQL(options))) \(node.flattened) }"
+        }
+    }
+
+}
+
+struct Node {
+    let name: String
+    let constraints: [String: GraphQLPrimitive]?
+
+    init(_ name: String, _ constraints: [String: GraphQLPrimitive]? = nil) {
+        self.name = name
+        self.constraints = constraints
+    }
+
+    var flattened: String {
+        if let constraints = self.constraints {
+            return "\(name)(\(toGraphQL(constraints)))"
+        } else {
+            return name
         }
     }
 
@@ -26,6 +42,10 @@ indirect enum GraphQL {
 
 struct GraphQLArray: GraphQLPrimitive {
     let values: [String]
+
+    public init(_ values: [String]) {
+        self.values = values
+    }
 
     var asValue: String {
         return "\(values)".replacingOccurrences(of: "\"", with: "")
