@@ -1,21 +1,17 @@
 import Foundation
 
-typealias GraphFunction = () -> GraphQL
-typealias GraphFunctions = () -> [GraphQL]
+typealias GraphFunction = () -> [GraphQL]
 
 indirect enum GraphQL {
 
     case root(String, GraphFunction)
-    case child(Node, GraphFunction)
-    case children(Node, GraphFunctions)
+    case children(Node, GraphFunction)
     case values([String])
 
     var flattened: String {
         switch self {
             case .root(let key, let graph):
                 return "\(key) { \(graph().flattened) }"
-            case .child(let node, let graph):
-                return "\(node.flattened) { \(graph().flattened) }"
             case .children(let node, let graphs):
                 return "\(node.flattened) { \(graphs().flattened) }"
             case .values(let values):

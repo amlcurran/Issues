@@ -39,17 +39,23 @@ class IssuesRepository {
     
     private func graph() -> GraphQL {
         return .root("query", {
-            .children(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
-                [.values(["name"]),
-                .child(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
-                    .child(Node("nodes"), {
-                        .values(["title", "id"])
-                    })
-                })]
-            })
+            [
+                repositoryGraph(named: "Social")
+            ]
         })
     }
     
+}
+
+private func repositoryGraph(named name: String) -> GraphQL {
+    return .children(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
+        [.values(["name"]),
+         .children(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
+            return [.children(Node("nodes"), {
+                [.values(["title", "id"])]
+            })]
+         })]
+    })
 }
 
 private func issuesNodeArray(from json: JSON) throws -> JSON {
@@ -72,16 +78,6 @@ fileprivate extension URLRequest {
         httpBody = try? JSONSerialization.data(withJSONObject: json)
     }
     
-}
-
-struct Issues: JSONArrayResponse {
-    let results: [Issue]
-    
-    init(_ jsonNode: JSONArray) throws {
-        results = jsonNode.flatMap({ issueJSON in
-            return try? Issue(issueJSON)
-        })
-    }
 }
 
 struct Issue: JSONResponse {
