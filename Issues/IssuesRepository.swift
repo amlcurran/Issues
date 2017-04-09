@@ -33,16 +33,17 @@ class IssuesRepository {
     private func graph() -> GraphQL {
         return .root("query", {
             [
-                repositoryGraph(named: "Social"),
-                repositoryGraph(named: "Issues")
+                repositoryGraph(named: "Social", owner: "amlcurran"),
+                repositoryGraph(named: "Issues", owner: "amlcurran"),
+                repositoryGraph(named: "website", owner: "amlcurran")
             ]
         })
     }
     
 }
 
-private func repositoryGraph(named name: String) -> GraphQL {
-    return .children(Node("repository", alias: name, ["owner": "amlcurran", "name": name]), {
+private func repositoryGraph(named name: String, owner: String) -> GraphQL {
+    return .children(Node("repository", alias: alias(owner: owner, repositoryName: name), ["owner": owner, "name": name]), {
         [.values(["name"]),
          .children(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
             return [.children(Node("nodes"), {
@@ -51,6 +52,10 @@ private func repositoryGraph(named name: String) -> GraphQL {
          })]
     })
         
+}
+
+private func alias(owner: String, repositoryName: String) -> String {
+    return "\(owner)_\(repositoryName)"
 }
 
 fileprivate extension URLRequest {
