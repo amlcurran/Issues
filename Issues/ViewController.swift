@@ -3,9 +3,9 @@ import UIKit
 class ViewController: UIViewController {
     
     let repository = IssuesRepository(resultQueue: .main)
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .grouped)
     let source = Source<Issue, IssueCell>(binding: { cell, issue in
-        cell.textLabel?.text = issue.title
+        cell.bind(to: issue)
     })
     
     override func viewDidLoad() {
@@ -15,13 +15,14 @@ class ViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.constrainToSuperview([.leading, .trailing, .top, .bottom])
         
-        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 64
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.register(IssueCell.self, forCellReuseIdentifier: "issue")
         
         tableView.dataSource = source
         repository.issues(
-            onResult: { [weak self] issues in
-                self?.source.update(issues.results)
+            onResult: { [weak self] repository in
+                self?.source.update(repository.issues)
                 self?.tableView.reloadData()
             },
             onError: { error in
@@ -33,18 +34,6 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-}
-
-class IssueCell: UITableViewCell {
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: "issue")
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
     
 }

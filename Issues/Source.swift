@@ -26,5 +26,9 @@ class Source<Data, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
     func update(_ issues: [Data]) {
         self.issues = issues
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "What's on"
+    }
 
 }

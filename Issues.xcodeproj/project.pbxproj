@@ -18,6 +18,7 @@
 		69853A3F89CD3BCB1C8B0EED /* IssuesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698538BF3C4C52DCCF377F8D /* IssuesTests.swift */; };
 		69853DB336173E0F45AC2BBE /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69853039BA88CD6CD739B16F /* GraphQL.swift */; };
 		8665D29F1E89496E0077A027 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8665D29E1E89496E0077A027 /* JSON.swift */; };
+		86B07B7C1E9A9A8D00920097 /* IssueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07B7B1E9A9A8D00920097 /* IssueCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		69853B6CBD9DADB25FA8C2AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		69853DCE0BBAFFC184130C9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		8665D29E1E89496E0077A027 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
+		86B07B7B1E9A9A8D00920097 /* IssueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				69853322531B0023F2F6B71D /* IssuesRepository.swift */,
 				69853039BA88CD6CD739B16F /* GraphQL.swift */,
 				8665D29E1E89496E0077A027 /* JSON.swift */,
+				86B07B7B1E9A9A8D00920097 /* IssueCell.swift */,
 			);
 			path = Issues;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				698534E0445FF426D353C992 /* Secrets.swift in Sources */,
 				69853709739C03496D3E9F2D /* UIView+Constraints.swift in Sources */,
 				698537A4FE2FE65E2DF56708 /* Source.swift in Sources */,
+				86B07B7C1E9A9A8D00920097 /* IssueCell.swift in Sources */,
 				698537D27F4014D4E0A4C49F /* IssuesRepository.swift in Sources */,
 				69853DB336173E0F45AC2BBE /* GraphQL.swift in Sources */,
 				8665D29F1E89496E0077A027 /* JSON.swift in Sources */,
