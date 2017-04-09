@@ -11,7 +11,7 @@ class IssuesRepository {
         self.resultQueue = resultQueue
     }
     
-    func issues(onResult completion: @escaping ((Issues) -> Void), onError errorHandler: @escaping ((Error) -> Void)) {
+    func issues(onResult completion: @escaping ((Repository) -> Void), onError errorHandler: @escaping ((Error) -> Void)) {
         let request = URLRequest(authToken: token, query: graph())
         let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] maybeData, maybeResponse, maybeError in
             guard let data = maybeData else {
@@ -22,8 +22,9 @@ class IssuesRepository {
             }
             do {
                 let json = try JSONSerialization.json(from: data)
+                print(json)
                 let nodes = try issuesNodeArray(from: json)
-                let issues = try Issues(nodes)
+                let issues = try Repository(nodes)
                 self?.resultQueue.async {
                     completion(issues)
                 }
@@ -38,24 +39,23 @@ class IssuesRepository {
     
     private func graph() -> GraphQL {
         return .root("query", {
-            .child(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
+            .children(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
+                [.values(["name"]),
                 .child(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
                     .child(Node("nodes"), {
                         .values(["title", "id"])
                     })
-                })
+                })]
             })
         })
     }
     
 }
 
-private func issuesNodeArray(from json: JSON) throws -> JSONArray {
+private func issuesNodeArray(from json: JSON) throws -> JSON {
     if let data = json["data"] as? JSON,
-        let repository = data["repository"] as? JSON,
-        let issuesJson = repository["issues"] as? JSON,
-        let nodes = issuesJson["nodes"] as? JSONArray {
-        return nodes
+        let repository = data["repository"] as? JSON {
+        return repository
     }
     throw ParseError.invalidJSON(json: json)
 }
@@ -93,4 +93,23 @@ struct Issue: JSONResponse {
         }
         self.title = title
     }
+}
+
+struct Repository: JSONResponse {
+    
+    let name: String
+    let issues: [Issue]
+    
+    init(_ jsonNode: JSON) throws {
+        guard let name = jsonNode["name"] as? String,
+            let issuesNode = jsonNode["issues"] as? JSON,
+            let issues = issuesNode["nodes"] as?  JSONArray else {
+                throw ParseError.missingKey
+        }
+        self.name = name
+        self.issues = try issues.flatMap({ issueJSON in
+            return try Issue(issueJSON)
+        })
+    }
+    
 }

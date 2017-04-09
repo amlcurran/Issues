@@ -1,11 +1,13 @@
 import Foundation
 
 typealias GraphFunction = () -> GraphQL
+typealias GraphFunctions = () -> [GraphQL]
 
 indirect enum GraphQL {
 
     case root(String, GraphFunction)
     case child(Node, GraphFunction)
+    case children(Node, GraphFunctions)
     case values([String])
 
     var flattened: String {
@@ -14,6 +16,8 @@ indirect enum GraphQL {
                 return "\(key) { \(graph().flattened) }"
             case .child(let node, let graph):
                 return "\(node.flattened) { \(graph().flattened) }"
+            case .children(let node, let graphs):
+                return "\(node.flattened) { \(graphs().flattened) }"
             case .values(let values):
                 return values.joined(separator: " ")
         }
@@ -72,4 +76,14 @@ private func toGraphQL(_ options: [String: GraphQLPrimitive]) -> String {
     return options.map({ (entry: (String, GraphQLPrimitive)) in
         return "\(entry.0): \(entry.1.asValue)"
     }).joined(separator: ", ")
+}
+
+extension Array where Iterator.Element == GraphQL {
+    
+    var flattened: String {
+        return map({ graph in
+            return graph.flattened
+        }).joined(separator: "\n")
+    }
+    
 }

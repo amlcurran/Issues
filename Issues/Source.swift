@@ -1,17 +1,21 @@
 import Foundation
 import UIKit
 
-class Source<Data, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
+class Source<Cell: UITableViewCell>: NSObject, UITableViewDataSource {
 
-    private let binding: ((Cell, Data) -> Void)
-    private var issues: [Data] = []
+    private let binding: ((Cell, Issue) -> Void)
+    private var repositories: [Repository] = []
 
-    init(binding: @escaping ((Cell, Data) -> Void)) {
+    init(binding: @escaping ((Cell, Issue) -> Void)) {
         self.binding = binding
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return issues.count
+        return repositories[section].issues.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return repositories.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -19,16 +23,16 @@ class Source<Data, Cell: UITableViewCell>: NSObject, UITableViewDataSource {
         guard let cell = basicCell as? Cell else {
             preconditionFailure("Expected cell dequeued for issue to be \(Cell.self) but was \(type(of: basicCell))")
         }
-        binding(cell, issues[indexPath.row])
+        binding(cell, repositories[indexPath.section].issues[indexPath.row])
         return cell
     }
 
-    func update(_ issues: [Data]) {
-        self.issues = issues
+    func update(_ respository: Repository) {
+        self.repositories = [respository]
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "What's on"
+        return repositories[section].name
     }
 
 }

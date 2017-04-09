@@ -4,12 +4,13 @@ class ViewController: UIViewController {
     
     let repository = IssuesRepository(resultQueue: .main)
     let tableView = UITableView(frame: .zero, style: .grouped)
-    let source = Source<Issue, IssueCell>(binding: { cell, issue in
+    let source = Source<IssueCell>(binding: { cell, issue in
         cell.bind(to: issue)
     })
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Issues"
         
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +23,7 @@ class ViewController: UIViewController {
         tableView.dataSource = source
         repository.issues(
             onResult: { [weak self] repository in
-                self?.source.update(repository.issues)
+                self?.source.update(repository)
                 self?.tableView.reloadData()
             },
             onError: { error in
