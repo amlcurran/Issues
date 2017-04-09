@@ -22,8 +22,8 @@ class ViewController: UIViewController {
         
         tableView.dataSource = source
         repository.issues(
-            onResult: { [weak self] repository in
-                self?.source.update(repository)
+            onResult: { [weak self] repositories in
+                self?.source.update(repositories)
                 self?.tableView.reloadData()
             },
             onError: { error in

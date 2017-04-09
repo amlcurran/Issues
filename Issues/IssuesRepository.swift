@@ -1,7 +1,5 @@
 import Foundation
-
-typealias JSON = [String: Any]
-typealias JSONArray = [JSON]
+import SwiftyJSON
 
 class IssuesRepository {
     
@@ -11,7 +9,7 @@ class IssuesRepository {
         self.resultQueue = resultQueue
     }
     
-    func issues(onResult completion: @escaping ((Repository) -> Void), onError errorHandler: @escaping ((Error) -> Void)) {
+    func issues(onResult completion: @escaping (([Repository]) -> Void), onError errorHandler: @escaping ((Error) -> Void)) {
         let request = URLRequest(authToken: token, query: graph())
         let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] maybeData, maybeResponse, maybeError in
             guard let data = maybeData else {
@@ -20,18 +18,13 @@ class IssuesRepository {
                 }
                 return
             }
-            do {
-                let json = try JSONSerialization.json(from: data)
-                print(json)
-                let nodes = try issuesNodeArray(from: json)
-                let issues = try Repository(nodes)
-                self?.resultQueue.async {
-                    completion(issues)
-                }
-            } catch let error {
-                self?.resultQueue.async {
-                    errorHandler(error)
-                }
+            let json = JSON(data: data)
+            let nodes = json["data"].dictionaryValue
+            let repositories = nodes.flatMap({ key, value in
+                return try? Repository(value)
+            })
+            self?.resultQueue.async {
+                completion(repositories)
             }
         })
         task.resume()
@@ -40,7 +33,8 @@ class IssuesRepository {
     private func graph() -> GraphQL {
         return .root("query", {
             [
-                repositoryGraph(named: "Social")
+                repositoryGraph(named: "Social"),
+                repositoryGraph(named: "Issues")
             ]
         })
     }
@@ -48,7 +42,7 @@ class IssuesRepository {
 }
 
 private func repositoryGraph(named name: String) -> GraphQL {
-    return .children(Node("repository", ["owner": "amlcurran", "name": "Social"]), {
+    return .children(Node("repository", alias: name, ["owner": "amlcurran", "name": name]), {
         [.values(["name"]),
          .children(Node("issues", ["first": 10, "states": GraphQLArray(["OPEN"])]), {
             return [.children(Node("nodes"), {
@@ -56,14 +50,7 @@ private func repositoryGraph(named name: String) -> GraphQL {
             })]
          })]
     })
-}
-
-private func issuesNodeArray(from json: JSON) throws -> JSON {
-    if let data = json["data"] as? JSON,
-        let repository = data["repository"] as? JSON {
-        return repository
-    }
-    throw ParseError.invalidJSON(json: json)
+        
 }
 
 fileprivate extension URLRequest {
@@ -84,8 +71,8 @@ struct Issue: JSONResponse {
     let title: String
     
     init(_ jsonNode: JSON) throws {
-        guard let title = jsonNode["title"] as? String else {
-            throw ParseError.missingKey
+        guard let title = jsonNode["title"].string else {
+            throw ParseError.invalidJSON(json: jsonNode)
         }
         self.title = title
     }
@@ -97,14 +84,13 @@ struct Repository: JSONResponse {
     let issues: [Issue]
     
     init(_ jsonNode: JSON) throws {
-        guard let name = jsonNode["name"] as? String,
-            let issuesNode = jsonNode["issues"] as? JSON,
-            let issues = issuesNode["nodes"] as?  JSONArray else {
-                throw ParseError.missingKey
+        guard let name = jsonNode["name"].string,
+            let issuesNode = jsonNode["issues"]["nodes"].array else {
+                throw ParseError.invalidJSON(json: jsonNode)
         }
         self.name = name
-        self.issues = try issues.flatMap({ issueJSON in
-            return try Issue(issueJSON)
+        self.issues = issuesNode.flatMap({ issueJSON in
+            return try? Issue(issueJSON)
         })
     }
     

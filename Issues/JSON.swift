@@ -7,21 +7,18 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 extension JSONSerialization {
     
     static func json(from data: Data) throws -> JSON {
         if let jsonAny = try? JSONSerialization.jsonObject(with: data),
-            let json = jsonAny as? JSON{
+            let json = jsonAny as? JSON {
             return json
         }
         throw ParseError.noJSON
     }
     
-}
-
-protocol JSONArrayResponse {
-    init(_ jsonNode: JSONArray) throws
 }
 
 protocol JSONResponse {

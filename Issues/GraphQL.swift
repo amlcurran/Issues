@@ -24,13 +24,23 @@ indirect enum GraphQL {
 struct Node {
     let name: String
     let constraints: [String: GraphQLPrimitive]?
+    let alias: String?
 
-    init(_ name: String, _ constraints: [String: GraphQLPrimitive]? = nil) {
+    init(_ name: String, alias: String? = nil, _ constraints: [String: GraphQLPrimitive]? = nil) {
         self.name = name
+        self.alias = alias
         self.constraints = constraints
     }
 
     var flattened: String {
+        if let alias = alias {
+            return "\(alias): \(foo())"
+        } else {
+            return foo()
+        }
+    }
+    
+    private func foo() -> String {
         if let constraints = self.constraints {
             return "\(name)(\(toGraphQL(constraints)))"
         } else {

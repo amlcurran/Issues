@@ -27,8 +27,8 @@ class Source<Cell: UITableViewCell>: NSObject, UITableViewDataSource {
         return cell
     }
 
-    func update(_ respository: Repository) {
-        self.repositories = [respository]
+    func update(_ respository: [Repository]) {
+        self.repositories = respository
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
