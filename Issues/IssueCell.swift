@@ -24,8 +24,9 @@ class IssueCell: UITableViewCell {
         title.numberOfLines = 0
     }
     
-    func bind(to issue: Issue) {
+    func bind(to issue: IssueTableModel) {
         title.text = issue.title
+        title.isEnabled = issue.isEnabled
     }
     
 }
